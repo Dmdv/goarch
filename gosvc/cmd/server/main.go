@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/goarch/gosvc/internal/database"
 	transportHttp "github.com/goarch/gosvc/internal/transport/http"
 )
 
@@ -15,10 +16,17 @@ type App struct {
 func (app *App) Run() error {
 	fmt.Println("Setting up Application")
 
+	var err error
+
+	_, err = database.NewDatabase()
+	if err != nil {
+		return err
+	}
+
 	handler := transportHttp.NewHandler()
 	handler.SetupRoutes()
 
-	if err := http.ListenAndServe(":8000", handler.Router); err != nil {
+	if err := http.ListenAndServe(":8008", handler.Router); err != nil {
 		fmt.Println("Failed to run server")
 		return err
 	}
