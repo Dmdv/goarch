@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/goarch/gosvc/internal/comment"
 	"github.com/goarch/gosvc/internal/database"
 	transportHttp "github.com/goarch/gosvc/internal/transport/http"
 )
@@ -18,12 +19,14 @@ func (app *App) Run() error {
 
 	var err error
 
-	_, err = database.NewDatabase()
+	db, err := database.NewDatabase()
 	if err != nil {
 		return err
 	}
 
-	handler := transportHttp.NewHandler()
+	commentService := comment.NewService(db)
+	handler := transportHttp.NewHandler(commentService)
+
 	handler.SetupRoutes()
 
 	if err := http.ListenAndServe(":8008", handler.Router); err != nil {
