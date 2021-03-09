@@ -1,6 +1,7 @@
 package http
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -13,6 +14,11 @@ import (
 type Handler struct {
 	Router  *mux.Router
 	Service *comment.Service
+}
+
+// Response ...
+type Response struct {
+	Message string
 }
 
 // NewHandler ...
@@ -33,8 +39,11 @@ func (h *Handler) SetupRoutes() {
 	h.Router.HandleFunc("/api/comment/{id}", h.UpdateComment).Methods("PUT")
 	h.Router.HandleFunc("/api/comment/{id}", h.DeleteComment).Methods("DELETE")
 
-	h.Router.HandleFunc("/api/health", func(rw http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(rw, "Service is running")
+	h.Router.HandleFunc("/api/health", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(Response{Message: "Service running OK"}); err != nil {
+			panic(err)
+		}
 	})
 }
 
