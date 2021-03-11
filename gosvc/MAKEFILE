@@ -1,0 +1,10 @@
+build_image:
+	docker build -t comment-api .
+
+run_image:
+	DB_USERNAME=postgres
+	DB_PASSWORD=postgres
+	DB_HOST=localhost
+	DB_TABLE=postgres
+	DB_PORT=5432
+	docker run -it -p 8080:8080 comment-api
