@@ -3,3 +3,9 @@ api:
 
 generate:
 	goctl api go -api sample.api -dir sample -style go-zero
+
+build:
+	docker build -t go-zero-hello:v1 -f service/hello/Dockerfile .
+
+run:
+	docker run --rm -it -p 8888:8888 go-zero-hello:v1
