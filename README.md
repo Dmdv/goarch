@@ -1,2 +1,2 @@
 # goarch
-Defining Go microservice project architecure
+Defining Go microservice project architecture
