@@ -15,7 +15,7 @@ COPY ./etc /app/etc
 RUN go build -ldflags="-s -w" -o /app/hello ./hello.go
 
 
-FROM alpine
+FROM alpine:latest as production
 
 RUN apk update --no-cache && apk add --no-cache ca-certificates tzdata
 ENV TZ Asia/Shanghai
