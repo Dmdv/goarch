@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	fmt "fmt"
 
 	"hello/internal/config"
 	"hello/internal/handler"

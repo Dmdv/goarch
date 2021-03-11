@@ -18,7 +18,7 @@ type Comment struct {
 // CommentService ...
 type CommentService interface {
 	GetComment(ID uint) (Comment, error)
-	GetCommentbBySlug(slug string) ([]Comment, error)
+	GetCommentBySlug(slug string) ([]Comment, error)
 	PostComment(comment Comment) (Comment, error)
 	UpdateComment(ID uint, newComment Comment) (Comment, error)
 	GetAllComments() ([]Comment, error)
@@ -42,7 +42,7 @@ func (s *Service) GetComment(ID uint) (Comment, error) {
 }
 
 // GetCommentbBySlug ...
-func (s *Service) GetCommentbBySlug(slug string) ([]Comment, error) {
+func (s *Service) GetCommentBySlug(slug string) ([]Comment, error) {
 	var comments []Comment
 	if result := s.DB.Find(&comments).Where("slug = ?", slug); result.Error != nil {
 		return []Comment{}, result.Error

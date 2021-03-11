@@ -1,0 +1,5 @@
+api:
+	goctl api -o sample.api
+
+generate:
+	goctl api go -api sample.api -dir sample -style go-zero

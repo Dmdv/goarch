@@ -2,7 +2,7 @@
 package types
 
 type Request struct {
-	Name string `path:"name,options=you|me"` // parameters are auto validated
+	Name string `path:"name,options=you|me"`
 }
 
 type Response struct {
