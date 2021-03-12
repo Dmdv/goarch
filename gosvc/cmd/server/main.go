@@ -2,20 +2,30 @@ package main
 
 import (
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"net/http"
 
 	"github.com/goarch/gosvc/internal/comment"
 	"github.com/goarch/gosvc/internal/database"
 	transportHttp "github.com/goarch/gosvc/internal/transport/http"
+	_ "github.com/sirupsen/logrus"
 )
 
 // App is ...
 type App struct {
+	Name    string
+	Version string
 }
 
 // Run ...
 func (app *App) Run() error {
-	fmt.Println("Setting up Application")
+	logrus.SetFormatter(&logrus.JSONFormatter{})
+	logrus.WithFields(
+		logrus.Fields{
+			"Appname":    app.Name,
+			"Appversion": app.Version,
+		},
+	).Info("Setting up Application")
 
 	var err error
 
@@ -35,7 +45,7 @@ func (app *App) Run() error {
 	handler.SetupRoutes()
 
 	if err := http.ListenAndServe(":8008", handler.Router); err != nil {
-		fmt.Println("Failed to run server")
+		logrus.Error("Failed to run server")
 		return err
 	}
 
@@ -43,11 +53,15 @@ func (app *App) Run() error {
 }
 
 func main() {
+
 	fmt.Println("Go rest API")
-	app := App{}
+	app := App{
+		Name:    "Commenting service",
+		Version: "1.0.0",
+	}
 
 	if err := app.Run(); err != nil {
-		fmt.Println("Error starting up Application")
-		fmt.Println(err)
+		logrus.Error("Error starting up Application")
+		logrus.Fatal(err)
 	}
 }
