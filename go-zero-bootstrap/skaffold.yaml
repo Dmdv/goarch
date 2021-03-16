@@ -1,0 +1,13 @@
+apiVersion: skaffold/v2beta12
+kind: Config
+metadata:
+  name: go-zero-bootstrap
+build:
+  artifacts:
+  - image: redis
+    context: service\hello
+    docker: {}
+deploy:
+  kubectl:
+    manifests:
+    - K8S/redis.yaml
